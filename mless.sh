@@ -5,6 +5,7 @@ mless() {
 	markdown $file | lynx -stdin
 }
 
+# TODO: Gather also installed commands.
 requirements() {
 	local cmd=(
 		file
@@ -48,6 +49,7 @@ filename="$(basename "$file")"
 extension="$([[ "$filename" = *.* ]] && echo ".${filename##*.}" || echo '')"
 mimetype="$(file --mime-type $file | awk {'print $2'})"
 
+#TODO: Improve dealing with symlinks.
 if [ "$mimetype" != "text/plain" ]; then
 	echo "File '$file' is not a plain text file type ($mimetype)."
 	exit 1
@@ -58,6 +60,7 @@ if [ -z "$extension" ]; then
 	exit 1
 fi
 
+# TODO: Allow to continue anyway?
 case "$extension" in
 	".md"|".markdown" ) mless ;;
 	*) echo "File '$file' is not a markdown file type."; exit 1 ;;
