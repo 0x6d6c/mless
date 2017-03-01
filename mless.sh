@@ -55,9 +55,8 @@ fi
 
 filename="$(basename "$file")"
 extension="$([[ "$filename" = *.* ]] && echo ".${filename##*.}" || echo '')"
-mimetype="$(file --mime-type $file | awk {'print $2'})"
+mimetype="$(file --dereference --mime-type $file | awk {'print $2'})"
 
-#TODO: Improve dealing with symlinks.
 if [ "$mimetype" != "text/plain" ]; then
 	echo "File '$file' is not a plain text file type ($mimetype)."
 	exit 1
