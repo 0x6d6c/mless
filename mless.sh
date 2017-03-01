@@ -7,6 +7,8 @@ mless() {
 
 requirements() {
 	local cmd=(
+		awk
+		basename
 		file
 		lynx
 		markdown
