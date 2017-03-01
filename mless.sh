@@ -5,6 +5,17 @@ mless() {
 	markdown $file | lynx -stdin
 }
 
+anyway() {
+	read -p "Proceed anyway? [y/N] " yn
+	case "$yn" in
+		y|Y) mless ;;
+		n|N) break ;;
+		*)
+			echo "y/Y or n/N"
+			anyway ;;
+	esac
+}
+
 requirements() {
 	local cmd=(
 		awk
@@ -66,11 +77,12 @@ fi
 
 if [ -z "$extension" ]; then
 	echo "Unknow file type."
-	exit 1
+	anyway
 fi
 
-# TODO: Allow to continue anyway?
 case "$extension" in
 	".md"|".markdown" ) mless ;;
-	*) echo "File '$file' is not a markdown file type."; exit 1 ;;
+	*)
+		echo "File '$file' is not a markdown file type."
+		anyway ;;
 esac
